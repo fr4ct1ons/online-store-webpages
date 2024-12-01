@@ -9,15 +9,28 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './theme';
+import { createBrowserRouter, RouterProvider } from 'react-router';
+import NotFound from './pages/NotFound';
+import Storefront from './pages/Storefront';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <NotFound />
+  },
+  {
+    path: "/storefront",
+    element: <Storefront/>
+  }
+])
 
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>
 );

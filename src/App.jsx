@@ -1,21 +1,17 @@
 import './App.css';
-import { AppBar, Box, Button, Container, Stack, Toolbar, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
+import Template from './Template';
 
 function App() {
 
   return(
-    <Container maxWidth="xl" >
-      <AppBar>
-        <Toolbar>
-          <Typography>Online Store</Typography>
-        </Toolbar>
-      </AppBar>
-      <Stack direction={"column"} alignItems={"center"} sx={{mx: "0rem", mt: "6rem"}}> 
+    <Template>
+      <Stack direction={"column"} alignItems={"center"} sx={{mx: "0rem"}}> 
         <Typography variant='h3'>Online Store</Typography>
         <Typography marginY={"2rem"}>O seu marketplace virtual.</Typography>
         <Button variant='contained'>Conhecer</Button>
       </Stack>
-    </Container>
+    </Template>
   )
 
 /*
