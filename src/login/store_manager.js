@@ -1,16 +1,17 @@
-class UserManager {
-    async createUser(name, password) {
-        return fetch('http://localhost:5029/User/CreateUser', {
+class StoreManager
+{
+    async createStore(name, password, description) {
+        return fetch('http://localhost:5029/Store/CreateStore', {
             method: "POST",
             body: JSON.stringify({
                 'name': name,
                 'password': password,
+                'description': description
             }),
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json'
             }
-
         })
             .then(response => {
                 if (!response.ok) {
@@ -19,41 +20,12 @@ class UserManager {
                 return response.json();
             })
             .catch(error => {
-                console.error('There was a problem creating an user:', error);
+                console.error('There was a problem creating a store:', error);
             });
     }
-    async runEverything() {
-        await this.createUser('marco', '1234')
-        var id = await this.login('marco', '1234');
-        console.log(id);
-        await this.deleteUser(id['id']);
-    }
-    async deleteUser(userId) {
-        return fetch('http://localhost:5029/User/DeleteUser?' + 'userId=' + userId, {
-            method: "DELETE",
-            headers: {
-                'Accept': '*/*',
-                'Content-Type': 'application/json'
-            }
-
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(response => {
-                return response;
-            })
-            .catch(error => {
-                console.error('There was a problem deleting an user:', error);
-            });
-    }
-
 
     async login(name, password) {
-        return fetch('http://localhost:5029/User/LoginUser', {
+        return fetch('http://localhost:5029/Store/LoginStore', {
             method: "POST",
             body: JSON.stringify({
                 'username': name,
@@ -74,10 +46,41 @@ class UserManager {
                 return response;
             })
             .catch(error => {
-                console.error('There was a problem logging in:', error);
+                console.error('There was a problem logging in as a store:', error);
             });
 
 
     }
+
+    async deleteStore(storeId) {
+        return fetch('http://localhost:5029/Store/DeleteStore?' + 'id=' + storeId, {
+            method: "DELETE",
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            }
+
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(response => {
+                return response;
+            })
+            .catch(error => {
+                console.error('There was a problem deleting a store:', error);
+            });
+    }
+
+    async runEverything() {
+        await this.createStore('lucena', '1337', "lojona")
+        var id = await this.login('lucena', '1337');
+        console.log(id);
+        await this.deleteStore(id.id);
+    }
 }
-export { UserManager };
+
+export {StoreManager}
