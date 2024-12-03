@@ -6,12 +6,15 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc"
 import timezone from "dayjs/plugin/timezone"
 import {StoreManager} from "../login/store_manager"
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import StoreProductListing from "../components/StoreProductListing";
 import CreateProductModal from "../components/CreateProductModal";
 
 const storeIdKey = "storeId"
 const storeNameKey = "storeName"
+
+export const SetProductsContext = createContext((products) => {})
+export const ProductsContext = createContext([])
 
 function Storefront() {
     dayjs.extend(utc)
@@ -131,24 +134,28 @@ function Storefront() {
 
     return ( 
         <Template>
-            <Stack width={"48rem"} mx="auto" direction={"column"} spacing={"1rem"} boxShadow={"#ddd 0px 8px 8px"} padding={"1rem"} borderRadius={"8px"} border={"1.5px solid #ccc"}>
-                <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
-                    <Typography>Olá, {storeNameCookie}! Esta página está em construção.</Typography>
-                    <Chip onClick={Logoff} color="primary" variant="outlined" label="Sair" />
-                </Stack>
-                
-                <Typography sx={{fontSize: "14px", fontStyle: "italic"}}>{description}</Typography>
+            <ProductsContext.Provider value={products} >
+                <SetProductsContext.Provider value={setProducts} >
+                    <Stack width={"48rem"} mx="auto" direction={"column"} spacing={"1rem"} boxShadow={"#ddd 0px 8px 8px"} padding={"1rem"} borderRadius={"8px"} border={"1.5px solid #ccc"}>
+                        <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
+                            <Typography>Olá, {storeNameCookie}! Esta página está em construção.</Typography>
+                            <Chip onClick={Logoff} color="primary" variant="outlined" label="Sair" />
+                        </Stack>
+                        
+                        <Typography sx={{fontSize: "14px", fontStyle: "italic"}}>{description}</Typography>
 
-                <Stack direction="row" alignItems="center" justifyContent={"space-between"}>
-                    <Typography >Produtos</Typography>
-                    <Chip onClick={() => setModalOpen(true)} color="primary" variant="outlined" label="Adicionar novo produto" />
-                </Stack>
-                <Grid container spacing="2rem">
-                    {productComponents}
-                </Grid>
-            </Stack>
+                        <Stack direction="row" alignItems="center" justifyContent={"space-between"}>
+                            <Typography >Produtos</Typography>
+                            <Chip onClick={() => setModalOpen(true)} color="primary" variant="outlined" label="Adicionar novo produto" />
+                        </Stack>
+                        <Grid container spacing="2rem">
+                            {productComponents}
+                        </Grid>
+                    </Stack>
 
-            <CreateProductModal open={modalOpen} setOpen={setModalOpen} storeId={storeIdCookie} products={products} setProducts={setProducts} />
+                    <CreateProductModal open={modalOpen} setOpen={setModalOpen} storeId={storeIdCookie} products={products} setProducts={setProducts} />
+                </SetProductsContext.Provider>
+            </ProductsContext.Provider>
         </Template>
      );
 }
