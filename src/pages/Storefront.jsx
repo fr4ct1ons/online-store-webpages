@@ -8,6 +8,7 @@ import timezone from "dayjs/plugin/timezone"
 import {StoreManager} from "../login/store_manager"
 import { useEffect, useState } from "react";
 import StoreProductListing from "../components/StoreProductListing";
+import CreateProductModal from "../components/CreateProductModal";
 
 const storeIdKey = "storeId"
 const storeNameKey = "storeName"
@@ -25,6 +26,7 @@ function Storefront() {
     const [currentStoreId, setCurrentStoreId] = useState("")
     const [products, setProducts] = useState(undefined)
 
+    const [modalOpen, setModalOpen] = useState(false)
     const [registering, setRegistering] = useState(false)
 
     var mng = new StoreManager()
@@ -139,12 +141,14 @@ function Storefront() {
 
                 <Stack direction="row" alignItems="center" justifyContent={"space-between"}>
                     <Typography >Produtos</Typography>
-                    <Chip onClick={() => {}} color="primary" variant="outlined" label="Adicionar novo produto" />
+                    <Chip onClick={() => setModalOpen(true)} color="primary" variant="outlined" label="Adicionar novo produto" />
                 </Stack>
                 <Grid container spacing="2rem">
                     {productComponents}
                 </Grid>
             </Stack>
+
+            <CreateProductModal open={modalOpen} setOpen={setModalOpen} storeId={storeIdCookie} products={products} setProducts={setProducts} />
         </Template>
      );
 }
