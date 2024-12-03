@@ -108,9 +108,7 @@ function Storefront() {
             </Template>
         )
     }
-    
-    console.log("Getting products :" + (products))
-    
+        
     if(!products)
     {
         mng.GetStore(storeIdCookie)
@@ -118,7 +116,6 @@ function Storefront() {
             console.log(response)
             setProducts(response.products)
             setDescription(response.description)
-            console.log("Setting up products")
         })
     }
     
@@ -127,7 +124,7 @@ function Storefront() {
     {
         productComponents = products.map((p) => {
             return (
-                <StoreProductListing description={p.description} name={p.name} price={p.price} id={p.id} />
+                <StoreProductListing description={p.description} name={p.name} price={p.price} id={p.id} comments={p.reviews} />
             )
         })
     }

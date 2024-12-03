@@ -2,10 +2,12 @@ import { Stack, Typography, Box, Button } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { createContext, useState } from "react";
 import EditProductModal from "./EditProductModal";
+import ProductCommentsModal from "./ProductCommentsModal";
 
-function StoreProductListing({name, price, id, description}) {
+function StoreProductListing({name, price, id, description, comments}) {
 
     const [editModalOpen, setEditModalOpen] = useState(false)
+    const [commentsModalOpen, setCommentsModalOpen] = useState(false)
 
     return ( 
         <Grid xs={5.5} item >
@@ -17,13 +19,14 @@ function StoreProductListing({name, price, id, description}) {
                 <Box  >
                     <Typography sx={{overflow: "hidden"}} textOverflow={"hidden"} fontSize={14}>{description}</Typography>
                     <Stack mt="auto" direction="row" justifyContent="space-between" alignItems="end">
-                        <Button variant="contained">Ver comentários</Button>
+                        <Button onClick={() => setCommentsModalOpen(true)} variant="contained">Ver comentários</Button>
                         <Button onClick={() => setEditModalOpen(true)} variant="contained">Editar</Button>
                     </Stack>
                 </Box>
             </Box>
 
             <EditProductModal open={editModalOpen} setOpen={setEditModalOpen} productId={id} />
+            <ProductCommentsModal open={commentsModalOpen} setOpen={setCommentsModalOpen} productName={name} comments={comments} />
         </Grid>
      );
 }

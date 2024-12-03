@@ -42,6 +42,21 @@ class ProductManager
             return response.json();
         })
     }
+
+    async GetReviews(storeId)
+    {
+        return fetch('http://localhost:5029/Product/WriteReview? ', {
+            method: "GET",
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            }
+
+        })
+        .then((response) => {
+            return response.json();
+        })
+    }
 }
 
 export {ProductManager}
