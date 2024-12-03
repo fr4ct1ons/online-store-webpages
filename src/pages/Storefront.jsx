@@ -1,31 +1,33 @@
-import { Box, Button, Input, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Chip, Input, Stack, TextField, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid';
 import Template from "../Template";
 import { GetCookie, SetCookie } from "../helpers/cookieHelper";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc"
 import timezone from "dayjs/plugin/timezone"
 import {StoreManager} from "../login/store_manager"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import StoreProductListing from "../components/StoreProductListing";
+
+const storeIdKey = "storeId"
+const storeNameKey = "storeName"
 
 function Storefront() {
     dayjs.extend(utc)
     dayjs.extend(timezone)
     const testcookie = GetCookie("hello")
-    const storeIdCookie = GetCookie("storeId")
+    const storeIdCookie = GetCookie(storeIdKey)
+    const storeNameCookie = GetCookie(storeNameKey)
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [description, setDescription] = useState("")
+    const [currentStoreId, setCurrentStoreId] = useState("")
+    const [products, setProducts] = useState(undefined)
 
     const [registering, setRegistering] = useState(false)
 
     var mng = new StoreManager()
-
-    if(!testcookie)
-    {
-        let date = dayjs().tz(dayjs.tz.guess()).add(8, "hours")
-        SetCookie("hello", "1337", date.toISOString())
-    }
 
     function StoreLogin()
     {
@@ -34,7 +36,9 @@ function Storefront() {
             console.log(response)
             if(response)
             {
-                SetCookie("storeId", response.id, dayjs().tz(dayjs.tz.guess()).add(8, "hours"))
+                SetCookie(storeIdKey, response.id, dayjs().tz(dayjs.tz.guess()).add(8, "hours"))
+                SetCookie(storeNameKey, response.name, dayjs().tz(dayjs.tz.guess()).add(8, "hours"))
+                setCurrentStoreId(response.id);
             }
         })
     }
@@ -45,11 +49,18 @@ function Storefront() {
         .then((response) =>{
             if(response)
             {
-                SetCookie("storeId", response.id, dayjs().tz(dayjs.tz.guess()).add(8, "hours"))
+                SetCookie(storeIdKey, response.id, dayjs().tz(dayjs.tz.guess()).add(8, "hours"))
+                setCurrentStoreId(response.id);
             }
 
             console.log(response)
         })
+    }
+
+    function Logoff()
+    {
+        SetCookie(storeIdKey, "")
+        setCurrentStoreId("")
     }
 
     if(!storeIdCookie)
@@ -92,10 +103,48 @@ function Storefront() {
             </Template>
         )
     }
+    
+    console.log("Getting products :" + (products))
+    
+    if(!products)
+    {
+        mng.GetStore(storeIdCookie)
+        .then((response) => {
+            console.log(response)
+            setProducts(response.products)
+            setDescription(response.description)
+            console.log("Setting up products")
+        })
+    }
+    
+    let productComponents;
+    if(products)
+    {
+        productComponents = products.map((p) => {
+            return (
+                <StoreProductListing description={p.description} name={p.name} price={p.price} id={p.id} />
+            )
+        })
+    }
 
     return ( 
         <Template>
-            <Typography>Olá, {storeIdCookie}! Esta página está em construção.</Typography>
+            <Stack width={"48rem"} mx="auto" direction={"column"} spacing={"1rem"} boxShadow={"#ddd 0px 8px 8px"} padding={"1rem"} borderRadius={"8px"} border={"1.5px solid #ccc"}>
+                <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
+                    <Typography>Olá, {storeNameCookie}! Esta página está em construção.</Typography>
+                    <Chip onClick={Logoff} color="primary" variant="outlined" label="Sair" />
+                </Stack>
+                
+                <Typography sx={{fontSize: "14px", fontStyle: "italic"}}>{description}</Typography>
+
+                <Stack direction="row" alignItems="center" justifyContent={"space-between"}>
+                    <Typography >Produtos</Typography>
+                    <Chip onClick={() => {}} color="primary" variant="outlined" label="Adicionar novo produto" />
+                </Stack>
+                <Grid container spacing="2rem">
+                    {productComponents}
+                </Grid>
+            </Stack>
         </Template>
      );
 }
