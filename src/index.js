@@ -12,6 +12,7 @@ import { theme } from './theme';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import NotFound from './pages/NotFound';
 import Storefront from './pages/Storefront';
+import UserFront from './pages/Userfront';
 import { UserManager } from './login/user_manager.js';
 import { StoreManager } from './login/store_manager.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -25,13 +26,17 @@ const router = createBrowserRouter([
   {
     path: "/storefront",
     element: <Storefront />
+  },
+  {
+    path: "/user",
+    element: <UserFront />
   }
 ])
 
 
 
-let mng = new UserManager().runEverything();
-let storemng = new StoreManager().runEverything();
+//let mng = new UserManager().runEverything();
+//let storemng = new StoreManager().runEverything();
 
 root.render(
   <React.StrictMode>

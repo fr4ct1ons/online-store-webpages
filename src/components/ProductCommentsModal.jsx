@@ -6,7 +6,7 @@ function ProductCommentsModal({open, setOpen, comments, productName}) {
 
     let components = <Typography sx={{fontStyle: "italic", color: "gray"}}>Sem comentários aqui.</Typography>;
 
-    if(comments.length > 0)
+    if(comments != undefined && comments.length > 0)
     {
         console.log("Doing isso", comments)
         components = comments?.map((c) => {
