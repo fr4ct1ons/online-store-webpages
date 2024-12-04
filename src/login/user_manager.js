@@ -74,5 +74,22 @@ class UserManager {
 
 
     }
+    async GetUser(userId)
+    {
+        return fetch('http://localhost:5029/User/GetUser?' + 'userId=' + userId, {
+            method: "GET",
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            }
+
+        })
+        .then((response) => {
+        console.log(response);
+
+            return response.json();
+        })
+    }
+
 }
 export { UserManager };
