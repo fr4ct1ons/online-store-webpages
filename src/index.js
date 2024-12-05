@@ -15,6 +15,7 @@ import Storefront from './pages/Storefront';
 import UserFront from './pages/Userfront';
 import { UserManager } from './login/user_manager.js';
 import { StoreManager } from './login/store_manager.js';
+import StoreSearch from './pages/StoreSearch.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const router = createBrowserRouter([
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/user",
     element: <UserFront />
+  },
+  {
+    path: "/store_search/:query",
+    element: <StoreSearch />
   }
 ])
 
