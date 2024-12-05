@@ -43,9 +43,9 @@ class ProductManager
         })
     }
 
-    async GetReviews(storeId)
+    async GetRandomProducts()
     {
-        return fetch('http://localhost:5029/Product/WriteReview? ', {
+        return fetch('http://localhost:5029/Product/GetRandomProducts ', {
             method: "GET",
             headers: {
                 'Accept': '*/*',

@@ -1,27 +1,33 @@
-import { AppBar, Box, Button, Container, IconButton, Stack, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Container, IconButton, Input, Stack, TextField, Toolbar, Typography } from '@mui/material';
 import StorefrontRoundedIcon from '@mui/icons-material/StorefrontRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import { Children } from 'react';
+import { Children, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 function Template({children}) {
 
     const navigate = useNavigate();
 
+    const [query, setQuery] = useState("")
+
     return ( 
         <Container maxWidth="xl" >
         <AppBar>
             <Toolbar sx={{justifyContent: "space-between"}}>
-            <Typography>Online Store</Typography>
+            <Typography sx={{cursor: "pointer"}} onClick={() => {navigate("/")}} >Online Store</Typography>
+
+            <Box sx={{width: "30%", bgcolor: "white", border: "1.5px solid", borderColor: "primary.dark", borderRadius: 32, px: "1.5rem", py: ".25rem"}}>
+                <Input sx={{width: "100%",}} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Pesquisar loja"></Input>
+            </Box>
 
             <Stack direction={"row"} spacing={"1rem"}>
-            <IconButton onClick={() => navigate("/storefront")}>
-                <StorefrontRoundedIcon />
-            </IconButton>
+                <IconButton onClick={() => navigate("/storefront")}>
+                    <StorefrontRoundedIcon />
+                </IconButton>
 
-            <IconButton onClick={() => navigate("/user")}>
-                <PersonRoundedIcon />
-            </IconButton>
+                <IconButton onClick={() => navigate("/user")}>
+                    <PersonRoundedIcon />
+                </IconButton>
             </Stack>
 
             </Toolbar>

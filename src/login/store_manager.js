@@ -111,6 +111,22 @@ class StoreManager
         })
     }
 
+    
+    async GetRandomStores()
+    {
+        return fetch('http://localhost:5029/Store/GetRandomStores', {
+            method: "GET",
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            }
+
+        })
+        .then((response) => {
+            return response.json();
+        })
+    }
+
     async runEverything() {
         await this.createStore('lucena', '1337', "lojona")
         var id = await this.login('lucena', '1337');
