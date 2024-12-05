@@ -10,6 +10,16 @@ function Template({children}) {
 
     const [query, setQuery] = useState("")
 
+    function SearchStores()
+    {
+        if(!query)
+        {
+            return
+        }
+
+        navigate("/store_search/" + query)
+    }
+
     return ( 
         <Container maxWidth="xl" >
         <AppBar>
@@ -17,7 +27,9 @@ function Template({children}) {
             <Typography sx={{cursor: "pointer"}} onClick={() => {navigate("/")}} >Online Store</Typography>
 
             <Box sx={{width: "30%", bgcolor: "white", border: "1.5px solid", borderColor: "primary.dark", borderRadius: 32, px: "1.5rem", py: ".25rem"}}>
-                <Input sx={{width: "100%",}} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Pesquisar loja"></Input>
+                <form onSubmit={SearchStores}>
+                    <Input sx={{width: "100%",}} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Pesquisar loja"></Input>
+                </form>
             </Box>
 
             <Stack direction={"row"} spacing={"1rem"}>
