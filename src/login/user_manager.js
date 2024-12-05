@@ -47,7 +47,7 @@ class UserManager {
                 return response;
             })
             .catch(error => {
-                console.error('There was a problem creating an user:', error);
+                console.error('There was a problem deleting an user:', error);
             });
     }
 
