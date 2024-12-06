@@ -16,6 +16,7 @@ import UserFront from './pages/Userfront';
 import StoreSearch from './pages/StoreSearch.jsx';
 import { CartProvider } from './helpers/cart.js';
 import CartFront from './pages/CartFront.jsx';
+import Store from './pages/Store.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const router = createBrowserRouter([
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/store_search/:query",
     element: <StoreSearch />
+  },
+  {
+    path: "/store/:id",
+    element: <Store />
   }
 ])
 
