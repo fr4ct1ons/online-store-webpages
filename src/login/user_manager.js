@@ -38,13 +38,11 @@ class UserManager {
 
         })
             .then(response => {
-                if (!response.ok) {
+                console.log(response);
+                if (!response.ok || response.status != 204) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
-            })
-            .then(response => {
-                return response;
+                return true;
             })
             .catch(error => {
                 console.error('There was a problem deleting an user:', error);
@@ -72,12 +70,26 @@ class UserManager {
                 return response.json();
             }).then(response => {
                 return response;
-            })
-            .catch(error => {
-                console.error('There was a problem logging in:', error);
             });
 
 
     }
+    async GetUser(userId)
+    {
+        return fetch('http://localhost:5029/User/GetUser?' + 'userId=' + userId, {
+            method: "GET",
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            }
+
+        })
+        .then((response) => {
+        console.log(response);
+
+            return response.json();
+        })
+    }
+
 }
 export { UserManager };
