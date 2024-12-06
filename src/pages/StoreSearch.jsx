@@ -32,7 +32,7 @@ function StoreSearch() {
                         <Typography fontSize={18} >{s.name}</Typography>
                         <Typography fontSize={14} fontStyle={"italic"}>{s.description}</Typography>
                     </Box>
-                    <Button style={{marginLeft: "auto"}} variant='contained'>Conhecer</Button>
+                    <Button onClick={() => navigate("/store/" + s.id)} style={{marginLeft: "auto"}} variant='contained'>Conhecer</Button>
                 </Stack>
             )
         })
