@@ -35,7 +35,7 @@ function App() {
   {
     productComponents = products.map((p) => {
       return (
-        <Stack sx={{border: "1.5px solid #ddd", p:"1rem", borderRadius: "8px", width: "18%"}} spacing={".5rem"}>
+        <Stack sx={{border: "1.5px solid #ddd", p:"1rem", borderRadius: "8px", width: "10rem"}} spacing={".5rem"}>
           <Box sx={{display: "flex", alignItems: "end", justifyContent: "space-between"}}>
             <Typography fontSize={16} >{p.name}</Typography>
             <Typography fontSize={12} >R$ {p.price}{Number.isInteger(p.price) ? ".00" : ""}</Typography>
@@ -61,6 +61,7 @@ function App() {
         )
       })
     }
+  console.log(products);
 
   return(
     <Template>
