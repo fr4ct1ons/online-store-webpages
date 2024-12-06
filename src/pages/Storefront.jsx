@@ -9,6 +9,7 @@ import {StoreManager} from "../login/store_manager"
 import { createContext, useEffect, useState } from "react";
 import StoreProductListing from "../components/StoreProductListing";
 import CreateProductModal from "../components/CreateProductModal";
+import { useNavigate } from "react-router";
 
 const storeIdKey = "storeId"
 const storeNameKey = "storeName"
@@ -22,6 +23,7 @@ function Storefront() {
     const testcookie = GetCookie("hello")
     const storeIdCookie = GetCookie(storeIdKey)
     const storeNameCookie = GetCookie(storeNameKey)
+    const navigate = useNavigate()
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -31,6 +33,8 @@ function Storefront() {
 
     const [modalOpen, setModalOpen] = useState(false)
     const [registering, setRegistering] = useState(false)
+    const [registerError, setRegisterError] = useState("")
+    const [loginError, setLoginError] = useState("")
 
     var mng = new StoreManager()
 
@@ -46,6 +50,10 @@ function Storefront() {
                 setCurrentStoreId(response.id);
             }
         })
+        .catch((error) => {
+            console.log("Ih deu ruim")
+            setLoginError("Senha ou usuário inválidos.")
+        })
     }
 
     function RegisterStore()
@@ -60,12 +68,19 @@ function Storefront() {
 
             console.log(response)
         })
+        .catch((error) => {
+            setRegisterError("Erro ao registrar - Já existe uma conta com este nome.")
+            console.log(error)
+        })
     }
 
     function Logoff()
     {
         SetCookie(storeIdKey, "")
+        setRegistering(false)
         setCurrentStoreId("")
+        
+        navigate("/")
     }
 
     if(!storeIdCookie)
@@ -79,6 +94,7 @@ function Storefront() {
                 <Box spacing=".5rem" display={"flex"} width={"100%"} justifyContent={"end"}>
                     <Button onClick={() => StoreLogin()} variant="contained">Entrar</Button>
                 </Box>
+                {loginError? (<Typography sx={{fontSize: 12, color: "red"}}>{loginError}</Typography>) : ""}
                 <Typography fontSize={12} >Não tem uma loja? <Typography sx={{cursor : "pointer"}} color="primary" fontSize={12} display={"inline"} style={{color: "primary"}} onClick={() => setRegistering(true)}>Criar uma</Typography></Typography>
             </Stack>
         )
@@ -96,6 +112,7 @@ function Storefront() {
                     <Button onClick={() => {}} variant="outlined">Voltar</Button>
                     <Button onClick={() => RegisterStore()} variant="contained">Registrar</Button>
                     </Box>
+                    {registerError? (<Typography sx={{fontSize: 12, color: "red"}}>{registerError}</Typography>) : ""}
                 </Stack>
             )
         }
