@@ -15,12 +15,13 @@ class StoreManager
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(response);
                 }
                 return response.json();
             })
             .catch(error => {
                 console.error('There was a problem creating a store:', error);
+                throw error;
             });
     }
 
@@ -42,11 +43,10 @@ class StoreManager
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
-            }).then(response => {
-                return response;
             })
             .catch(error => {
                 console.error('There was a problem logging in as a store:', error);
+                throw error;
             });
 
 
