@@ -4,9 +4,11 @@ import Template from './Template';
 import { useState } from 'react';
 import { ProductManager } from './login/product_manager';
 import { StoreManager } from './login/store_manager';
+import { useCart } from "./helpers/cart.js"; 
+
 
 function App() {
-
+  const { addToCart } = useCart();
   const [products, setProducts] = useState(undefined)
   const [stores, setStores] = useState(undefined)
 
@@ -30,7 +32,6 @@ function App() {
 
   let productComponents = ""
   let storeComponents = ""
-
   if(products)
   {
     productComponents = products.map((p) => {
@@ -41,7 +42,7 @@ function App() {
             <Typography fontSize={12} >R$ {p.price}{Number.isInteger(p.price) ? ".00" : ""}</Typography>
           </Box>
           <Typography>{p.description}</Typography>
-          <Button style={{marginTop: "auto"}} variant='contained'>Adicionar ao carrinho</Button>
+          <Button onClick={() => addToCart(p)} style={{marginTop: "auto"} } variant='contained'>Adicionar ao carrinho</Button>
         </Stack>
       )
     })

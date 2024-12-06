@@ -90,6 +90,29 @@ class UserManager {
             return response.json();
         })
     }
+    async makePurchase(userId, productIds) {
+        return fetch('http://localhost:5029/User/MakePurchase', {
+            method: "POST",
+            body: JSON.stringify({
+                'userId': userId,
+                'productIds': productIds,
+            }),
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            }
+
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error('There was a problem creating an user:', error);
+            });
+    }
 
 }
 export { UserManager };
