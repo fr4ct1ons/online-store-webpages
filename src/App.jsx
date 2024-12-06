@@ -5,9 +5,11 @@ import { useState } from 'react';
 import { ProductManager } from './login/product_manager';
 import { StoreManager } from './login/store_manager';
 import { useCart } from "./helpers/cart.js"; 
+import { useNavigate } from "react-router";
 
 
 function App() {
+  const navigate = useNavigate()
   const { addToCart } = useCart();
   const [products, setProducts] = useState(undefined)
   const [stores, setStores] = useState(undefined)
@@ -57,7 +59,7 @@ function App() {
               <Typography fontSize={18} >{s.name}</Typography>
               <Typography fontSize={14} fontStyle={"italic"}>{s.description}</Typography>
             </Box>
-            <Button style={{marginLeft: "auto"}} variant='contained'>Conhecer</Button>
+            <Button onClick={() => navigate("/store/" + s.id)} style={{marginLeft: "auto"}} variant='contained'>Conhecer</Button>
           </Stack>
         )
       })

@@ -141,7 +141,7 @@ function Storefront() {
     {
         productComponents = products.map((p) => {
             return (
-                <StoreProductListing description={p.description} name={p.name} price={p.price} id={p.id} comments={p.reviews} />
+                <StoreProductListing description={p.description} name={p.name} price={p.price} id={p.id} comments={p.reviews} product={p}/>
             )
         })
     }
