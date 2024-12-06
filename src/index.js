@@ -13,8 +13,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import NotFound from './pages/NotFound';
 import Storefront from './pages/Storefront';
 import UserFront from './pages/Userfront';
-import { UserManager } from './login/user_manager.js';
-import { StoreManager } from './login/store_manager.js';
 import StoreSearch from './pages/StoreSearch.jsx';
 import { CartProvider } from './helpers/cart.js';
 import CartFront from './pages/CartFront.jsx';
