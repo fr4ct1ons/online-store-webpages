@@ -6,10 +6,12 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import Template from '../Template.jsx';
 import { UserManager } from "../login/user_manager";
 import { GetCookie, SetCookie } from "../helpers/cookieHelper";
+import { useNavigate } from 'react-router';
 
 const userIdKey = "userId"
 
 const CartFront = () => {
+    const navigate = useNavigate();
     const { cart, removeFromCart, clearCart} = useCart();
     const userIdCookie = GetCookie(userIdKey)
 
@@ -17,7 +19,7 @@ const CartFront = () => {
 
     function MakePurchase(userId) {
         if (!userId) {
-            
+            navigate('/user')
         }
         else {
             let productIds = cart.map((product) => product.id);
