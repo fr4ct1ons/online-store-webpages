@@ -26,6 +26,8 @@ function UserFront() {
     const [password, setPassword] = useState("");
     const [registering, setRegistering] = useState(false);
     const [purchases, setPurchases] = useState([]);
+    const [registerError, setRegisterError] = useState("")
+    const [loginError, setLoginError] = useState("")
 
     useEffect(() => {
         if(activeUserId){
@@ -35,6 +37,7 @@ function UserFront() {
     var mng = new UserManager()
 
     function Login() {
+        setLoginError("")
         mng.login(username, password)
             .then((response) => {
                 console.log(response);  
@@ -45,11 +48,12 @@ function UserFront() {
                 }
             }).catch(error => {
                 console.error('There was a problem logging in:', error);
-                alert("Usuário/senha inválidos!");
+                setLoginError("Usuário/senha inválidos!");
             })
     }
 
     function RegisterUser() {
+        setRegisterError("")
         mng.createUser(username, password)
             .then((response) => {
                 if (response) {
@@ -58,6 +62,9 @@ function UserFront() {
                     setUserId(response.id);
                 }
                 console.log(response)
+            })
+            .catch((error) => {
+                setRegisterError("Já eixte um usuário com esse nome.")
             })
     }
 
@@ -96,6 +103,7 @@ function UserFront() {
                 <Box spacing=".5rem" display={"flex"} width={"100%"} justifyContent={"end"}>
                     <Button onClick={() => Login()} variant="contained">Entrar</Button>
                 </Box>
+                {loginError? (<Typography sx={{fontSize: 12, color: "red"}}>{loginError}</Typography>) : ""}
                 <Typography fontSize={12} >Não tem uma conta? <Typography sx={{ cursor: "pointer" }} color="primary" fontSize={12} display={"inline"} style={{ color: "primary" }} onClick={() => setRegistering(true)}>Criar uma</Typography></Typography>
             </Stack>
         )
@@ -111,6 +119,7 @@ function UserFront() {
                         <Button onClick={() => { }} variant="outlined">Voltar</Button>
                         <Button onClick={() => RegisterUser()} variant="contained">Registrar</Button>
                     </Box>
+                {registerError? (<Typography sx={{fontSize: 12, color: "red"}}>{registerError}</Typography>) : ""}
                 </Stack>
             )
         }

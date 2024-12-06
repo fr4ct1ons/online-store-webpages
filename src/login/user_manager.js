@@ -20,6 +20,7 @@ class UserManager {
             })
             .catch(error => {
                 console.error('There was a problem creating an user:', error);
+                throw error;
             });
     }
     async runEverything() {
