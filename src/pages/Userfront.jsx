@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Input, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Chip, Stack, TextField, Typography } from "@mui/material";
 import Template from "../Template";
 import { GetCookie, SetCookie } from "../helpers/cookieHelper";
 import dayjs from "dayjs";
@@ -17,7 +17,7 @@ function UserFront() {
     const [activeUserId, setUserId] = useState('');
 
     const userIdCookie = GetCookie(userIdKey)
-    if(!activeUserId && userIdCookie){
+    if (!activeUserId && userIdCookie) {
         setUserId(userIdCookie);
     }
     const userNameCookie = GetCookie(userNameKey)
@@ -28,16 +28,16 @@ function UserFront() {
     const [purchases, setPurchases] = useState([]);
 
     useEffect(() => {
-        if(activeUserId){
+        if (activeUserId) {
             GetPurchases();
         }
-      }, [activeUserId]);
+    }, [activeUserId]);
     var mng = new UserManager()
 
     function Login() {
         mng.login(username, password)
             .then((response) => {
-                console.log(response);  
+                console.log(response);
                 if (response) {
                     SetCookie(userIdKey, response.id, dayjs().tz(dayjs.tz.guess()).add(8, "hours"))
                     SetCookie(userNameKey, response.username, dayjs().tz(dayjs.tz.guess()).add(8, "hours"))
@@ -77,7 +77,7 @@ function UserFront() {
             })
     }
 
-    function GetPurchases(){
+    function GetPurchases() {
         mng.GetUser(activeUserId).then((response) => {
             if (response) {
                 console.log(response.purchases);
@@ -85,6 +85,7 @@ function UserFront() {
             }
         })
     }
+    let purchasesComponents = [];
 
     if (!activeUserId) {
         let width = "12rem"
@@ -123,6 +124,56 @@ function UserFront() {
         );
 
     }
+    if (purchases.length !== 0) {
+        purchasesComponents = purchases.map((purchase, index) => {
+            return (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <Stack
+                        direction="column"
+                        sx={{
+                            border: "1.5px solid #ddd",
+                            p: "1rem",
+                            borderRadius: "8px",
+                            width: "30rem",
+                            mb: "1rem",
+                        }}
+                        justifyContent="center"
+                        spacing={".5rem"}
+
+                    >
+                        {purchase.products.map((p, index) => {
+                            return (
+                                <Stack key={index}>
+                                    {index > 0 && <div
+                                        className="divider"
+                                        style={{
+                                            borderTop: "1px dashed #000",
+                                            width: "80%",
+                                            margin: "0 auto",
+                                            paddingTop: "0.25rem",
+                                            paddingBottom: "0.25rem",
+                                            spacing: ".5rem",
+
+                                        }}
+                                    ></div>}
+
+                                    <Box sx={{ display: "flex", alignItems: "end", justifyContent: "space-between" }}>
+                                        <Typography fontSize={16}>{p.name}</Typography>
+                                        <Typography fontSize={12}>
+                                            R$ {p.price}
+                                            {Number.isInteger(p.price) ? ".00" : ""}
+                                        </Typography>
+                                    </Box>
+
+                                    <Typography fontSize={12}>{p.description}</Typography>
+                                </Stack>
+                            );
+                        })}
+                    </Stack>
+                </div>
+            );
+        })
+    }
     return (
         <Template>
             <Stack width={"48rem"} mx="auto" direction={"column"} spacing={"1rem"} boxShadow={"#ddd 0px 8px 8px"} padding={"1rem"} borderRadius={"8px"} border={"1.5px solid #ccc"} marginBottom={'1rem'}>
@@ -134,18 +185,8 @@ function UserFront() {
                     <Chip onClick={DeleteUser} color="destructive" variant="outlined" label="Excluir conta" />
                 </Stack>
             </Stack>
-            <Stack width={"40rem"} mx="auto" direction={"column"} spacing={"1rem"} boxShadow={"#ddd 0px 8px 8px"} padding={"1rem"} borderRadius={"8px"} border={"1.5px solid #ccc"}>
-            {purchases.map((purchase, index) => (
-                <div key={index}>
-                    <span>{purchase.products.map((product, index) => (
-                <div key={index}>
-                    <span>{product.name}</span>
-                </div>
-            ))}</span>
-                </div>
-            ))}
-            
-            </Stack>
+
+            {purchasesComponents}
         </Template>
     );
 }

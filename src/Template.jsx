@@ -3,6 +3,7 @@ import StorefrontRoundedIcon from '@mui/icons-material/StorefrontRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import { Children, useState } from 'react';
 import { useNavigate } from 'react-router';
+import CartButton from './components/CartButton';
 
 function Template({children}) {
 
@@ -33,6 +34,7 @@ function Template({children}) {
             </Box>
 
             <Stack direction={"row"} spacing={"1rem"}>
+                <CartButton onClick={() => navigate("/cart")}></CartButton>
                 <IconButton onClick={() => navigate("/storefront")}>
                     <StorefrontRoundedIcon />
                 </IconButton>

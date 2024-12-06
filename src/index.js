@@ -13,9 +13,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import NotFound from './pages/NotFound';
 import Storefront from './pages/Storefront';
 import UserFront from './pages/Userfront';
-import { UserManager } from './login/user_manager.js';
-import { StoreManager } from './login/store_manager.js';
 import StoreSearch from './pages/StoreSearch.jsx';
+import { CartProvider } from './helpers/cart.js';
+import CartFront from './pages/CartFront.jsx';
 import Store from './pages/Store.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -32,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/user",
     element: <UserFront />
+  },
+  {
+    path: "/cart",
+    element: <CartFront/>
   },
   {
     path: "/store_search/:query",
@@ -51,7 +55,9 @@ const router = createBrowserRouter([
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
