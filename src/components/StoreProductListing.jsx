@@ -3,8 +3,10 @@ import Grid from '@mui/material/Grid';
 import { createContext, useState } from "react";
 import EditProductModal from "./EditProductModal";
 import ProductCommentsModal from "./ProductCommentsModal";
+import { useCart } from "../helpers/cart.js"; 
 
-function StoreProductListing({name, price, id, description, comments, userview}) {
+function StoreProductListing({name, price, id, description, comments, userview, product}) {
+    const { addToCart } = useCart();
 
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [commentsModalOpen, setCommentsModalOpen] = useState(false)
@@ -24,7 +26,7 @@ function StoreProductListing({name, price, id, description, comments, userview})
                             <Button onClick={() => setEditModalOpen(true)} variant="contained">Editar</Button>
                         )}
                         {userview? (
-                            <Button onClick={() => {console.log({id, name, price})}} variant="contained">Comprar</Button>
+                            <Button onClick={() => {addToCart(product)}} variant="contained">Adicionar</Button>
                         ) : "" }
                         
                     </Stack>

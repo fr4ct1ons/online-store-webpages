@@ -5,7 +5,7 @@ import { useCart } from '../helpers/cart.js';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import Template from '../Template.jsx';
 import { UserManager } from "../login/user_manager";
-import { GetCookie, SetCookie } from "../helpers/cookieHelper";
+import { GetCookie } from "../helpers/cookieHelper";
 import { useNavigate } from 'react-router';
 
 const userIdKey = "userId"

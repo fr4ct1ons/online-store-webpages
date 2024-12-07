@@ -29,7 +29,7 @@ function Store() {
     {
         productComponents = store.products.map((p) => {
             return (
-                <StoreProductListing description={p.description} name={p.name} price={p.price} id={p.id} comments={p.reviews} userview />
+                <StoreProductListing description={p.description} name={p.name} price={p.price} id={p.id} comments={p.reviews} userview  product={p}/>
             )
         })
     }
